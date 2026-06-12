@@ -1,5 +1,6 @@
 import DashboardLayout from '../src/components/layout/dashboardlayout';
 import StatsCard from '@/src/components/dashboard/statscard';
+import PerformanceChart from '../src/components/charts/performancechart'
 
 const metrics = [
   {
@@ -41,6 +42,9 @@ export default function Home() {
               status={metric.status}
             />
           ))}
+        </div>
+        <div className="mt-8">
+             <PerformanceChart />
         </div>
       </div>
     </DashboardLayout>
