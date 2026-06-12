@@ -1,17 +1,47 @@
-import DashboardLayout from '../src/components/layout/dashboardlayout'
+import DashboardLayout from '../src/components/layout/dashboardlayout';
+import StatsCard from '@/src/components/dashboard/statscard';
+
+const metrics = [
+  {
+    title: 'Largest Contentful Paint',
+    value: '2.4s',
+    status: 'Good',
+  },
+  {
+    title: 'First Contentful Paint',
+    value: '1.8s',
+    status: 'Good',
+  },
+  {
+    title: 'Cumulative Layout Shift',
+    value: '0.08',
+    status: 'Good',
+  },
+  {
+    title: 'Time to Interactive',
+    value: '3.2s',
+    status: 'Needs Improvement',
+  },
+];
 
 export default function Home() {
   return (
     <DashboardLayout>
-      <div className="rounded-lg bg-white p-8 shadow">
-        <h2 className="mb-4 text-xl font-semibold">
-          Dashboard Overview
+      <div>
+        <h2 className="mb-6 text-2xl font-semibold">
+          Performance Overview
         </h2>
 
-        <p className="text-slate-600">
-          KPI cards and analytics widgets will be added
-          in the next phase.
-        </p>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {metrics.map((metric) => (
+            <StatsCard
+              key={metric.title}
+              title={metric.title}
+              value={metric.value}
+              status={metric.status}
+            />
+          ))}
+        </div>
       </div>
     </DashboardLayout>
   );
