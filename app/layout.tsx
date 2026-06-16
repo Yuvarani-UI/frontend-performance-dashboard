@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import QueryProvider from '../src/providers/reactqueryprovider';
+import ReduxProvider from '../src/providers/reduxprovider'
 
 export const metadata: Metadata = {
   title: 'Frontend Performance Dashboard',
@@ -15,9 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+        <ReduxProvider>
+            <QueryProvider>
+              {children}
+            </QueryProvider>
+        </ReduxProvider>
+
       </body>
     </html>
   );
