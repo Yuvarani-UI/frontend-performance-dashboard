@@ -4,12 +4,14 @@ type DashboardState = {
   searchTerm: string;
   statusFilter: string;
   sortOrder: 'asc' | 'desc';
+  currentPage: number;
 };
 
 const initialState: DashboardState = {
   searchTerm: '',
   statusFilter: 'All',
   sortOrder: 'desc',
+  currentPage: 1,
 };
 
 const dashboardSlice = createSlice({
@@ -21,6 +23,7 @@ const dashboardSlice = createSlice({
       action: PayloadAction<string>,
     ) => {
       state.searchTerm = action.payload;
+      state.currentPage = 1;
     },
 
     setStatusFilter: (
@@ -28,6 +31,7 @@ const dashboardSlice = createSlice({
       action: PayloadAction<string>,
     ) => {
       state.statusFilter = action.payload;
+      state.currentPage = 1;
     },
 
     setSortOrder: (
@@ -36,6 +40,13 @@ const dashboardSlice = createSlice({
     ) => {
       state.sortOrder = action.payload;
     },
+
+    setCurrentPage: (
+      state,
+      action: PayloadAction<number>,
+    ) => {
+      state.currentPage = action.payload;
+    },
   },
 });
 
@@ -43,6 +54,7 @@ export const {
   setSearchTerm,
   setStatusFilter,
   setSortOrder,
+  setCurrentPage,
 } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;
