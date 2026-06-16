@@ -1,6 +1,7 @@
 'use client';
 
 import { recentActivities } from '@/src/constants/recentactivities';
+import EmptyState from '../ui/emptystate';
 
 import {
   useAppDispatch,
@@ -51,9 +52,11 @@ export default function ActivityTableAdvanced() {
         : second - first;
     });
 
-  const totalPages = Math.ceil(
+  const totalPages = Math.max( 1,
+  Math.ceil(
     filteredData.length / ITEMS_PER_PAGE,
-  );
+  ),
+);
 
   const paginatedData = filteredData.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -134,26 +137,37 @@ export default function ActivityTableAdvanced() {
           </tr>
         </thead>
 
-        <tbody>
-          {paginatedData.map((item) => (
-            <tr
-              key={item.id}
-              className="border-b"
-            >
-              <td className="py-4">
-                {item.activity}
-              </td>
+<tbody>
+  {paginatedData.length > 0 ? (
+    paginatedData.map((item) => (
+      <tr
+        key={item.id}
+        className="border-b"
+      >
+        <td className="py-4">
+          {item.activity}
+        </td>
 
-              <td className="py-4">
-                {item.status}
-              </td>
+        <td className="py-4">
+          {item.status}
+        </td>
 
-              <td className="py-4">
-                {item.date}
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <td className="py-4">
+          {item.date}
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={3} className="py-6">
+        <EmptyState
+          title="No activities found"
+          description="Try adjusting your filters."
+        />
+      </td>
+    </tr>
+  )}
+</tbody>
       </table>
 
       <div className="mt-6 flex gap-2">

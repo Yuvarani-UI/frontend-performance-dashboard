@@ -4,6 +4,8 @@ import StatsCard from '../src/components/dashboard/statscard';
 import PerformanceChart from '../src/components/charts/performancechart';
 import ActivityTable from '../src/components/dashboard/activitytable';
 import ActivityTableAdvanced from '../src/components/dashboard/activitytableadvanced'
+import ErrorBoundary from '@/src/components/errorboundary';
+import Skeleton from '@/src/components/ui/skeletion';
 import { useMetrics } from '../src/hooks/useMetrics';
 
 export default function Home() {
@@ -16,7 +18,14 @@ export default function Home() {
   if (isLoading) {
     return (
       <DashboardLayout>
-        <p>Loading dashboard...</p>
+           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                className="h-32"
+              />
+            ))}
+            </div>
       </DashboardLayout>
     );
   }
@@ -31,6 +40,7 @@ export default function Home() {
 
   return (
     <DashboardLayout>
+       <ErrorBoundary>
       <div>
         <h2 className="mb-6 text-2xl font-semibold">
           Performance Overview
@@ -58,6 +68,8 @@ export default function Home() {
             <ActivityTableAdvanced />
         </div>
       </div>
+      </ErrorBoundary>
+
     </DashboardLayout>
   );
 }
