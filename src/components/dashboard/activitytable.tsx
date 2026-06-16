@@ -1,3 +1,5 @@
+'use client'
+
 import { recentActivities } from '@/src/constants/recentactivities'
 
 export default function ActivityTable() {

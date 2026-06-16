@@ -1,32 +1,33 @@
-import DashboardLayout from '../src/components/layout/dashboardlayout';
-import StatsCard from '@/src/components/dashboard/statscard';
-import PerformanceChart from '../src/components/charts/performancechart'
-import ActivityTable from '@/src/components/dashboard/activitytable';
-
-const metrics = [
-  {
-    title: 'Largest Contentful Paint',
-    value: '2.4s',
-    status: 'Good',
-  },
-  {
-    title: 'First Contentful Paint',
-    value: '1.8s',
-    status: 'Good',
-  },
-  {
-    title: 'Cumulative Layout Shift',
-    value: '0.08',
-    status: 'Good',
-  },
-  {
-    title: 'Time to Interactive',
-    value: '3.2s',
-    status: 'Needs Improvement',
-  },
-];
+'use client';
+import DashboardLayout from '@/src/components/layout/dashboardlayout';
+import StatsCard from '../src/components/dashboard/statscard';
+import PerformanceChart from '../src/components/charts/performancechart';
+import ActivityTable from '../src/components/dashboard/activitytable';
+import { useMetrics } from '../src/hooks/useMetrics';
 
 export default function Home() {
+  const {
+    data: metrics,
+    isLoading,
+    error,
+  } = useMetrics();
+
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <p>Loading dashboard...</p>
+      </DashboardLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DashboardLayout>
+        <p>Failed to load dashboard data.</p>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div>
@@ -35,7 +36,7 @@ export default function Home() {
         </h2>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {metrics.map((metric) => (
+          {metrics?.map((metric) => (
             <StatsCard
               key={metric.title}
               title={metric.title}
@@ -44,12 +45,14 @@ export default function Home() {
             />
           ))}
         </div>
+
         <div className="mt-8">
-             <PerformanceChart />
+          <PerformanceChart />
         </div>
+
         <div className="mt-8">
-              <ActivityTable />
-         </div>
+          <ActivityTable />
+        </div>
       </div>
     </DashboardLayout>
   );
