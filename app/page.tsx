@@ -5,6 +5,7 @@ import PerformanceChart from '../src/components/charts/performancechart';
 import ActivityTable from '../src/components/dashboard/activitytable';
 import ActivityTableAdvanced from '../src/components/dashboard/activitytableadvanced'
 import ErrorBoundary from '@/src/components/errorboundary';
+import ProtectedRoute from '@/src/components/auth/protectedroute';
 import Skeleton from '@/src/components/ui/skeletion';
 import { useMetrics } from '../src/hooks/useMetrics';
 
@@ -39,6 +40,7 @@ export default function Home() {
   }
 
   return (
+    <ProtectedRoute>
     <DashboardLayout>
        <ErrorBoundary>
       <div>
@@ -71,5 +73,6 @@ export default function Home() {
       </ErrorBoundary>
 
     </DashboardLayout>
+    </ProtectedRoute>
   );
 }
