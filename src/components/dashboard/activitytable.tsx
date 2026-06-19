@@ -1,10 +1,22 @@
-'use client'
+'use client';
 
-import { recentActivities } from '@/src/constants/recentactivities'
+import { recentActivities } from '@/src/constants/recentactivities';
+
+import { useAppSelector } from '@/src/hooks/useredux';
 
 export default function ActivityTable() {
+  const mode = useAppSelector(
+    (state) => state.theme.mode,
+  );
+
   return (
-    <div className="rounded-lg bg-white p-6 shadow">
+    <div
+      className={`rounded-lg p-6 shadow ${
+        mode === 'dark'
+          ? 'bg-slate-800 text-white'
+          : 'bg-white text-slate-900'
+      }`}
+    >
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-semibold">
           Recent Activity
@@ -14,10 +26,24 @@ export default function ActivityTable() {
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b text-left text-sm text-slate-500">
-              <th className="pb-3 font-medium">Activity</th>
-              <th className="pb-3 font-medium">Status</th>
-              <th className="pb-3 font-medium">Date</th>
+            <tr
+              className={`border-b text-left text-sm ${
+                mode === 'dark'
+                  ? 'border-slate-700 text-slate-300'
+                  : 'border-slate-200 text-slate-500'
+              }`}
+            >
+              <th className="pb-3 font-medium">
+                Activity
+              </th>
+
+              <th className="pb-3 font-medium">
+                Status
+              </th>
+
+              <th className="pb-3 font-medium">
+                Date
+              </th>
             </tr>
           </thead>
 
@@ -25,7 +51,11 @@ export default function ActivityTable() {
             {recentActivities.map((item) => (
               <tr
                 key={item.id}
-                className="border-b last:border-0"
+                className={`border-b last:border-0 ${
+                  mode === 'dark'
+                    ? 'border-slate-700'
+                    : 'border-slate-200'
+                }`}
               >
                 <td className="py-4 font-medium">
                   {item.activity}
@@ -43,7 +73,13 @@ export default function ActivityTable() {
                   </span>
                 </td>
 
-                <td className="py-4 text-slate-600">
+                <td
+                  className={`py-4 ${
+                    mode === 'dark'
+                      ? 'text-slate-400'
+                      : 'text-slate-600'
+                  }`}
+                >
                   {item.date}
                 </td>
               </tr>

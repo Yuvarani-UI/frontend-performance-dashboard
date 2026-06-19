@@ -9,6 +9,8 @@ import {
   useAppSelector,
 } from '@/src/hooks/useredux';
 
+import ThemeToggle from '../ui/themetoggle';
+
 export default function Header() {
   const dispatch = useAppDispatch();
 
@@ -18,6 +20,10 @@ export default function Header() {
     (state) => state.auth.user,
   );
 
+  const mode = useAppSelector(
+    (state) => state.theme.mode,
+  );
+
   const handleLogout = () => {
     dispatch(logout());
 
@@ -25,23 +31,49 @@ export default function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
+    <header
+      className={`flex items-center justify-between border-b px-6 py-4 ${
+        mode === 'dark'
+          ? 'border-slate-700 bg-slate-800 text-white'
+          : 'border-slate-200 bg-white text-slate-900'
+      }`}
+    >
       <div>
         <h1 className="text-2xl font-semibold">
           Frontend Performance Dashboard
         </h1>
 
-        <p className="text-sm text-slate-500">
+        <p
+          className={`text-sm ${
+            mode === 'dark'
+              ? 'text-slate-400'
+              : 'text-slate-500'
+          }`}
+        >
           Monitor and optimize application performance
         </p>
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="text-sm font-medium text-slate-600">
+        <ThemeToggle />
+
+        <span
+          className={`text-sm font-medium ${
+            mode === 'dark'
+              ? 'text-slate-300'
+              : 'text-slate-600'
+          }`}
+        >
           {user?.email ?? 'Guest'}
         </span>
 
-        <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-medium capitalize text-slate-700">
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${
+            mode === 'dark'
+              ? 'bg-slate-700 text-slate-200'
+              : 'bg-slate-200 text-slate-700'
+          }`}
+        >
           {user?.role ?? 'viewer'}
         </span>
 

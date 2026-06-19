@@ -1,11 +1,31 @@
+'use client';
+
+import { useAppSelector } from '@/src/hooks/useredux';
+
 export default function AIInsights() {
+  const mode = useAppSelector(
+    (state) => state.theme.mode,
+  );
+
   return (
-    <div className="rounded-lg bg-white p-6 shadow">
+    <div
+      className={`rounded-lg p-6 shadow ${
+        mode === 'dark'
+          ? 'bg-slate-800 text-white'
+          : 'bg-white text-slate-900'
+      }`}
+    >
       <h2 className="mb-4 text-xl font-semibold">
         AI Insights
       </h2>
 
-      <ul className="space-y-2 text-slate-600">
+      <ul
+        className={`space-y-2 ${
+          mode === 'dark'
+            ? 'text-slate-300'
+            : 'text-slate-600'
+        }`}
+      >
         <li>
           • API response time increased 12%
         </li>

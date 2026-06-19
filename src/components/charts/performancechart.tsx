@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   LineChart,
@@ -11,6 +11,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+import { useAppSelector } from '@/src/hooks/useredux';
+
 const data = [
   { day: 'Mon', lcp: 2.8, fcp: 2.0, tti: 3.8 },
   { day: 'Tue', lcp: 2.6, fcp: 1.9, tti: 3.6 },
@@ -22,20 +24,46 @@ const data = [
 ];
 
 export default function PerformanceChart() {
+  const mode = useAppSelector(
+    (state) => state.theme.mode,
+  );
+
   return (
-    <div className="rounded-lg bg-white p-6 shadow">
+    <div
+      className={`rounded-lg p-6 shadow ${
+        mode === 'dark'
+          ? 'bg-slate-800 text-white'
+          : 'bg-white text-slate-900'
+      }`}
+    >
       <h2 className="mb-6 text-xl font-semibold">
         Performance Trends
       </h2>
 
       <div className="h-80">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+        >
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
 
-            <XAxis dataKey="day" />
+            <XAxis
+              dataKey="day"
+              stroke={
+                mode === 'dark'
+                  ? '#cbd5e1'
+                  : '#475569'
+              }
+            />
 
-            <YAxis />
+            <YAxis
+              stroke={
+                mode === 'dark'
+                  ? '#cbd5e1'
+                  : '#475569'
+              }
+            />
 
             <Tooltip />
 

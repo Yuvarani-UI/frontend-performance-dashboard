@@ -29,6 +29,10 @@ export default function ActivityTableAdvanced() {
     (state) => state.dashboard,
   );
 
+  const mode = useAppSelector(
+    (state) => state.theme.mode,
+  );
+
   const filteredData = recentActivities
     .filter((item) => {
       const matchesSearch =
@@ -52,11 +56,12 @@ export default function ActivityTableAdvanced() {
         : second - first;
     });
 
-  const totalPages = Math.max( 1,
-  Math.ceil(
-    filteredData.length / ITEMS_PER_PAGE,
-  ),
-);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      filteredData.length / ITEMS_PER_PAGE,
+    ),
+  );
 
   const paginatedData = filteredData.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -64,7 +69,13 @@ export default function ActivityTableAdvanced() {
   );
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow">
+    <div
+      className={`rounded-lg p-6 shadow ${
+        mode === 'dark'
+          ? 'bg-slate-800 text-white'
+          : 'bg-white text-slate-900'
+      }`}
+    >
       <div className="mb-6 flex flex-col gap-4 md:flex-row">
         <input
           type="text"
@@ -73,7 +84,11 @@ export default function ActivityTableAdvanced() {
           onChange={(e) =>
             dispatch(setSearchTerm(e.target.value))
           }
-          className="rounded border p-2"
+          className={`rounded border p-2 ${
+            mode === 'dark'
+              ? 'border-slate-600 bg-slate-700 text-white placeholder:text-slate-400'
+              : 'border-slate-300 bg-white text-slate-900'
+          }`}
         />
 
         <select
@@ -83,7 +98,11 @@ export default function ActivityTableAdvanced() {
               setStatusFilter(e.target.value),
             )
           }
-          className="rounded border p-2"
+          className={`rounded border p-2 ${
+            mode === 'dark'
+              ? 'border-slate-600 bg-slate-700 text-white'
+              : 'border-slate-300 bg-white text-slate-900'
+          }`}
         >
           <option value="All">All</option>
           <option value="Success">
@@ -108,7 +127,11 @@ export default function ActivityTableAdvanced() {
               ),
             )
           }
-          className="rounded border p-2"
+          className={`rounded border p-2 ${
+            mode === 'dark'
+              ? 'border-slate-600 bg-slate-700 text-white'
+              : 'border-slate-300 bg-white text-slate-900'
+          }`}
         >
           <option value="desc">
             Newest First
@@ -122,7 +145,13 @@ export default function ActivityTableAdvanced() {
 
       <table className="min-w-full">
         <thead>
-          <tr className="border-b text-left">
+          <tr
+            className={`border-b text-left ${
+              mode === 'dark'
+                ? 'border-slate-700 text-slate-300'
+                : 'border-slate-200 text-slate-600'
+            }`}
+          >
             <th className="pb-3">
               Activity
             </th>
@@ -137,37 +166,50 @@ export default function ActivityTableAdvanced() {
           </tr>
         </thead>
 
-<tbody>
-  {paginatedData.length > 0 ? (
-    paginatedData.map((item) => (
-      <tr
-        key={item.id}
-        className="border-b"
-      >
-        <td className="py-4">
-          {item.activity}
-        </td>
+        <tbody>
+          {paginatedData.length > 0 ? (
+            paginatedData.map((item) => (
+              <tr
+                key={item.id}
+                className={`border-b ${
+                  mode === 'dark'
+                    ? 'border-slate-700'
+                    : 'border-slate-200'
+                }`}
+              >
+                <td className="py-4">
+                  {item.activity}
+                </td>
 
-        <td className="py-4">
-          {item.status}
-        </td>
+                <td className="py-4">
+                  {item.status}
+                </td>
 
-        <td className="py-4">
-          {item.date}
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan={3} className="py-6">
-        <EmptyState
-          title="No activities found"
-          description="Try adjusting your filters."
-        />
-      </td>
-    </tr>
-  )}
-</tbody>
+                <td
+                  className={`py-4 ${
+                    mode === 'dark'
+                      ? 'text-slate-400'
+                      : 'text-slate-600'
+                  }`}
+                >
+                  {item.date}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td
+                colSpan={3}
+                className="py-6"
+              >
+                <EmptyState
+                  title="No activities found"
+                  description="Try adjusting your filters."
+                />
+              </td>
+            </tr>
+          )}
+        </tbody>
       </table>
 
       <div className="mt-6 flex gap-2">
@@ -187,6 +229,8 @@ export default function ActivityTableAdvanced() {
                 currentPage ===
                 index + 1
                   ? 'bg-slate-900 text-white'
+                  : mode === 'dark'
+                  ? 'border border-slate-600 text-white'
                   : 'border'
               }`}
             >
