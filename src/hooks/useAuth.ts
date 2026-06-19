@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   useAppDispatch,
@@ -18,6 +18,9 @@ export default function useAuth() {
     (state) => state.auth,
   );
 
+  const [loading, setLoading] =
+    useState(true);
+
   useEffect(() => {
     const storedUser =
       localStorage.getItem(
@@ -31,7 +34,12 @@ export default function useAuth() {
         ),
       );
     }
+
+    setLoading(false);
   }, [dispatch]);
 
-  return auth;
+  return {
+    ...auth,
+    loading,
+  };
 }

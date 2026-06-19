@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import {
+  useEffect,
+} from 'react';
 
 import {
   useRouter,
@@ -8,46 +10,39 @@ import {
 
 import useAuth from '@/src/hooks/useAuth';
 
-type Props = {
+type PublicRouteProps = {
   children: React.ReactNode;
 };
 
-export default function ProtectedRoute({
+export default function PublicRoute({
   children,
-}: Props) {
-  const router =
-    useRouter();
+}: PublicRouteProps) {
+  const router = useRouter();
 
   const {
     isAuthenticated,
-    loading,
+    isRestoring,
   } = useAuth();
 
   useEffect(() => {
     if (
-      !loading &&
-      !isAuthenticated
+      !isRestoring &&
+      isAuthenticated
     ) {
-      router.push(
-        '/login',
-      );
+      router.push('/dashboard');
     }
   }, [
-    loading,
     isAuthenticated,
+    isRestoring,
     router,
   ]);
 
-  if (loading) {
+  if (isRestoring) {
     return (
       <div className="p-6">
-        Loading session...
+        Checking session...
       </div>
     );
-  }
-
-  if (!isAuthenticated) {
-    return null;
   }
 
   return <>{children}</>;
