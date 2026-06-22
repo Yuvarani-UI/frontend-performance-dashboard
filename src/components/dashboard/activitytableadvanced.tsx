@@ -1,6 +1,6 @@
 'use client';
 
-import { recentActivities } from '@/src/constants/recentactivities';
+import { recentActivities } from '@/src/constants/statusData';
 import EmptyState from '../ui/emptystate';
 import ExportButton from './exportbutton';
 

@@ -1,14 +1,19 @@
 'use client';
 
 import DashboardLayout from '@/src/components/layout/dashboardlayout';
+
 import StatsCard from '@/src/components/dashboard/statscard';
-import PerformanceChart from '@/src/components/charts/performancechart';
 import ActivityTable from '@/src/components/dashboard/activitytable';
 import ActivityTableAdvanced from '@/src/components/dashboard/activitytableadvanced';
-import ProtectedRoute from '@/src/components/auth/protectedroute';
 import AIInsights from '@/src/components/dashboard/AIinsights';
 import ExportButton from '@/src/components/dashboard/exportbutton';
 
+import PerformanceChart from '@/src/components/charts/performancechart';
+import KPITrendChart from '@/src/components/charts/kpitrendchart';
+import StatusPieChart from '@/src/components/charts/statuspiechart';
+import WeeklyPerformanceBarChart from '@/src/components/charts/weeklyperformancebarchart';
+
+import ProtectedRoute from '@/src/components/auth/protectedroute';
 
 import { useMetrics } from '@/src/hooks/useMetrics';
 import { useAppSelector } from '@/src/hooks/useredux';
@@ -52,6 +57,8 @@ export default function DashboardPage() {
             Performance Overview
           </h2>
 
+          {/* KPI Cards */}
+
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {metrics?.map((metric) => (
               <StatsCard
@@ -63,9 +70,24 @@ export default function DashboardPage() {
             ))}
           </div>
 
+          {/* Main Performance Chart */}
+
           <div className="mt-8">
             <PerformanceChart />
           </div>
+
+          {/* Advanced Analytics */}
+
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            <KPITrendChart />
+            <StatusPieChart />
+          </div>
+
+          <div className="mt-8">
+            <WeeklyPerformanceBarChart />
+          </div>
+
+          {/* Activities */}
 
           <div className="mt-8">
             <ActivityTable />
@@ -74,6 +96,8 @@ export default function DashboardPage() {
           <div className="mt-8">
             <ActivityTableAdvanced />
           </div>
+
+          {/* Admin Features */}
 
           {user?.role === 'admin' && (
             <div className="mt-8">
