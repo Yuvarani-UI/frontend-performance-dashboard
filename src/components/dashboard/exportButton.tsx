@@ -1,17 +1,23 @@
 'use client';
 
+import { recentActivities } from '@/src/constants/recentactivities';
+
+import { exportToCSV } from '@/src/utils/exportcsv';
+
 export default function ExportButton() {
   const handleExport = () => {
-    alert(
-      'CSV Export Coming Soon',
+    exportToCSV(
+      recentActivities,
+      'activities.csv',
     );
   };
 
   return (
     <button
       onClick={handleExport}
-      className="rounded bg-slate-900 px-4 py-2 text-white">
-      Export Report
+      className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+    >
+      Export CSV
     </button>
   );
 }

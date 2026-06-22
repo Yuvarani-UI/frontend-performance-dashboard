@@ -7,7 +7,7 @@ import ActivityTable from '@/src/components/dashboard/activitytable';
 import ActivityTableAdvanced from '@/src/components/dashboard/activitytableadvanced';
 import ProtectedRoute from '@/src/components/auth/protectedroute';
 import AIInsights from '@/src/components/dashboard/AIinsights';
-import ExportButton from '@/src/components/dashboard/exportButton';
+import ExportButton from '@/src/components/dashboard/exportbutton';
 
 
 import { useMetrics } from '@/src/hooks/useMetrics';

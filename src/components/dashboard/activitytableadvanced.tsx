@@ -2,6 +2,7 @@
 
 import { recentActivities } from '@/src/constants/recentactivities';
 import EmptyState from '../ui/emptystate';
+import ExportButton from './exportbutton';
 
 import {
   useAppDispatch,
@@ -45,7 +46,9 @@ export default function ActivityTableAdvanced() {
           ? true
           : item.status === statusFilter;
 
-      return matchesSearch && matchesStatus;
+      return (
+        matchesSearch && matchesStatus
+      );
     })
     .sort((a, b) => {
       const first = new Date(a.date).getTime();
@@ -59,7 +62,8 @@ export default function ActivityTableAdvanced() {
   const totalPages = Math.max(
     1,
     Math.ceil(
-      filteredData.length / ITEMS_PER_PAGE,
+      filteredData.length /
+        ITEMS_PER_PAGE,
     ),
   );
 
@@ -76,71 +80,86 @@ export default function ActivityTableAdvanced() {
           : 'bg-white text-slate-900'
       }`}
     >
-      <div className="mb-6 flex flex-col gap-4 md:flex-row">
-        <input
-          type="text"
-          placeholder="Search activity..."
-          value={searchTerm}
-          onChange={(e) =>
-            dispatch(setSearchTerm(e.target.value))
-          }
-          className={`rounded border p-2 ${
-            mode === 'dark'
-              ? 'border-slate-600 bg-slate-700 text-white placeholder:text-slate-400'
-              : 'border-slate-300 bg-white text-slate-900'
-          }`}
-        />
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-4 md:flex-row">
+          <input
+            type="text"
+            placeholder="Search activity..."
+            value={searchTerm}
+            onChange={(e) =>
+              dispatch(
+                setSearchTerm(
+                  e.target.value,
+                ),
+              )
+            }
+            className={`rounded border p-2 ${
+              mode === 'dark'
+                ? 'border-slate-600 bg-slate-700 text-white placeholder:text-slate-400'
+                : 'border-slate-300 bg-white text-slate-900'
+            }`}
+          />
 
-        <select
-          value={statusFilter}
-          onChange={(e) =>
-            dispatch(
-              setStatusFilter(e.target.value),
-            )
-          }
-          className={`rounded border p-2 ${
-            mode === 'dark'
-              ? 'border-slate-600 bg-slate-700 text-white'
-              : 'border-slate-300 bg-white text-slate-900'
-          }`}
-        >
-          <option value="All">All</option>
-          <option value="Success">
-            Success
-          </option>
-          <option value="Completed">
-            Completed
-          </option>
-          <option value="Pending">
-            Pending
-          </option>
-        </select>
+          <select
+            value={statusFilter}
+            onChange={(e) =>
+              dispatch(
+                setStatusFilter(
+                  e.target.value,
+                ),
+              )
+            }
+            className={`rounded border p-2 ${
+              mode === 'dark'
+                ? 'border-slate-600 bg-slate-700 text-white'
+                : 'border-slate-300 bg-white text-slate-900'
+            }`}
+          >
+            <option value="All">
+              All
+            </option>
 
-        <select
-          value={sortOrder}
-          onChange={(e) =>
-            dispatch(
-              setSortOrder(
-                e.target.value as
-                  | 'asc'
-                  | 'desc',
-              ),
-            )
-          }
-          className={`rounded border p-2 ${
-            mode === 'dark'
-              ? 'border-slate-600 bg-slate-700 text-white'
-              : 'border-slate-300 bg-white text-slate-900'
-          }`}
-        >
-          <option value="desc">
-            Newest First
-          </option>
+            <option value="Success">
+              Success
+            </option>
 
-          <option value="asc">
-            Oldest First
-          </option>
-        </select>
+            <option value="Completed">
+              Completed
+            </option>
+
+            <option value="Pending">
+              Pending
+            </option>
+          </select>
+
+          <select
+            value={sortOrder}
+            onChange={(e) =>
+              dispatch(
+                setSortOrder(
+                  e.target.value as
+                    | 'asc'
+                    | 'desc',
+                ),
+              )
+            }
+            className={`rounded border p-2 ${
+              mode === 'dark'
+                ? 'border-slate-600 bg-slate-700 text-white'
+                : 'border-slate-300 bg-white text-slate-900'
+            }`}
+          >
+            <option value="desc">
+              Newest First
+            </option>
+
+            <option value="asc">
+              Oldest First
+            </option>
+          </select>
+        </div>
+
+        <ExportButton />
       </div>
 
       <table className="min-w-full">
@@ -168,34 +187,36 @@ export default function ActivityTableAdvanced() {
 
         <tbody>
           {paginatedData.length > 0 ? (
-            paginatedData.map((item) => (
-              <tr
-                key={item.id}
-                className={`border-b ${
-                  mode === 'dark'
-                    ? 'border-slate-700'
-                    : 'border-slate-200'
-                }`}
-              >
-                <td className="py-4">
-                  {item.activity}
-                </td>
-
-                <td className="py-4">
-                  {item.status}
-                </td>
-
-                <td
-                  className={`py-4 ${
+            paginatedData.map(
+              (item) => (
+                <tr
+                  key={item.id}
+                  className={`border-b ${
                     mode === 'dark'
-                      ? 'text-slate-400'
-                      : 'text-slate-600'
+                      ? 'border-slate-700'
+                      : 'border-slate-200'
                   }`}
                 >
-                  {item.date}
-                </td>
-              </tr>
-            ))
+                  <td className="py-4">
+                    {item.activity}
+                  </td>
+
+                  <td className="py-4">
+                    {item.status}
+                  </td>
+
+                  <td
+                    className={`py-4 ${
+                      mode === 'dark'
+                        ? 'text-slate-400'
+                        : 'text-slate-600'
+                    }`}
+                  >
+                    {item.date}
+                  </td>
+                </tr>
+              ),
+            )
           ) : (
             <tr>
               <td
