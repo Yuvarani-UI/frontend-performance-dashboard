@@ -1,14 +1,21 @@
-export const statusData = [
+import { StatusData } from '@/src/types/status';
+
+
+export const statusData : StatusData[] = [
   {
     name: 'Completed',
-    value: 55,
+    value: 42,
   },
   {
     name: 'Success',
-    value: 30,
+    value: 35,
   },
   {
     name: 'Pending',
     value: 15,
+  },
+  {
+    name: 'Failed',
+    value: 8,
   },
 ];

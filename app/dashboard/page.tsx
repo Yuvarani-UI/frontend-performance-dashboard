@@ -59,7 +59,7 @@ export default function DashboardPage() {
 
           {/* KPI Cards */}
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {metrics?.map((metric) => (
               <StatsCard
                 key={metric.title}
@@ -105,11 +105,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {user?.role === 'admin' && (
-            <div className="mt-6">
-              <ExportButton />
-            </div>
-          )}
+         
         </div>
       </DashboardLayout>
     </ProtectedRoute>

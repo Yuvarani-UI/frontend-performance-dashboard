@@ -12,16 +12,9 @@ import {
 } from 'recharts';
 
 import { useAppSelector } from '@/src/hooks/useredux';
+import { performanceTrendData } from '@/src/constants/performancetrenddata';
 
-const data = [
-  { day: 'Mon', lcp: 2.8, fcp: 2.0, tti: 3.8 },
-  { day: 'Tue', lcp: 2.6, fcp: 1.9, tti: 3.6 },
-  { day: 'Wed', lcp: 2.5, fcp: 1.8, tti: 3.5 },
-  { day: 'Thu', lcp: 2.4, fcp: 1.8, tti: 3.4 },
-  { day: 'Fri', lcp: 2.3, fcp: 1.7, tti: 3.3 },
-  { day: 'Sat', lcp: 2.4, fcp: 1.8, tti: 3.2 },
-  { day: 'Sun', lcp: 2.2, fcp: 1.7, tti: 3.1 },
-];
+const data = [ ]
 
 export default function PerformanceChart() {
   const mode = useAppSelector(
@@ -40,13 +33,20 @@ export default function PerformanceChart() {
         Performance Trends
       </h2>
 
-      <div className="h-80">
+      <div className="h-[420px]">
         <ResponsiveContainer
           width="100%"
           height="100%"
         >
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
+          <LineChart data={performanceTrendData}>
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke={
+                mode === 'dark'
+                  ? '#334155'
+                  : '#e2e8f0'
+              }
+            />
 
             <XAxis
               dataKey="day"
@@ -65,7 +65,23 @@ export default function PerformanceChart() {
               }
             />
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor:
+                  mode === 'dark'
+                    ? '#1e293b'
+                    : '#ffffff',
+                border:
+                  mode === 'dark'
+                    ? '1px solid #475569'
+                    : '1px solid #e2e8f0',
+                borderRadius: '8px',
+                color:
+                  mode === 'dark'
+                    ? '#ffffff'
+                    : '#0f172a',
+              }}
+            />
 
             <Legend />
 
@@ -73,7 +89,9 @@ export default function PerformanceChart() {
               type="monotone"
               dataKey="lcp"
               stroke="#2563eb"
-              strokeWidth={2}
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
               name="LCP"
             />
 
@@ -81,7 +99,9 @@ export default function PerformanceChart() {
               type="monotone"
               dataKey="fcp"
               stroke="#16a34a"
-              strokeWidth={2}
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
               name="FCP"
             />
 
@@ -89,7 +109,9 @@ export default function PerformanceChart() {
               type="monotone"
               dataKey="tti"
               stroke="#dc2626"
-              strokeWidth={2}
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
               name="TTI"
             />
           </LineChart>

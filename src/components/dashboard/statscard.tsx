@@ -19,7 +19,7 @@ export default function StatsCard({
 
   return (
     <div
-      className={`rounded-lg p-6 shadow transition hover:shadow-md ${
+      className={`rounded-lg p-6 shadow transition hover:shadow-lg ${
         mode === 'dark'
           ? 'bg-slate-800 text-white'
           : 'bg-white text-slate-900'
@@ -35,12 +35,12 @@ export default function StatsCard({
         {title}
       </h3>
 
-      <p className="mt-2 text-3xl font-bold">
+      <p className="mt-4 text-4xl font-bold">
         {value}
       </p>
 
       <span
-        className={`mt-4 inline-block rounded-full px-3 py-1 text-sm font-medium ${
+        className={`mt-5 inline-flex rounded-full px-3 py-1 text-sm font-medium ${
           status === 'Good'
             ? 'bg-green-100 text-green-700'
             : 'bg-yellow-100 text-yellow-700'

@@ -1,6 +1,6 @@
 'use client';
 
-import { recentActivities } from '@/src/constants/statusData';
+import { recentActivities } from '@/src/constants/recentactivities';
 import EmptyState from '../ui/emptystate';
 import ExportButton from './exportbutton';
 
@@ -233,7 +233,7 @@ export default function ActivityTableAdvanced() {
         </tbody>
       </table>
 
-      <div className="mt-6 flex gap-2">
+      <div className="mt-6 flex items-center justify-center gap-2">
         {Array.from(
           { length: totalPages },
           (_, index) => (

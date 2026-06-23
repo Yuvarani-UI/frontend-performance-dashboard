@@ -15,19 +15,20 @@ export default function AIInsights() {
           : 'bg-white text-slate-900'
       }`}
     >
-      <h2 className="mb-4 text-xl font-semibold">
+      <h2 className="mb-5 text-xl font-semibold">
         AI Insights
       </h2>
 
       <ul
-        className={`space-y-2 ${
+        className={`space-y-3 ${
           mode === 'dark'
             ? 'text-slate-300'
             : 'text-slate-600'
         }`}
       >
         <li>
-          • API response time increased 12%
+          • API response time increased by
+          12%
         </li>
 
         <li>
@@ -36,7 +37,8 @@ export default function AIInsights() {
         </li>
 
         <li>
-          • Bundle size can be reduced by 18%
+          • Bundle size can be reduced by
+          18%
         </li>
       </ul>
     </div>

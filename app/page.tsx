@@ -3,7 +3,6 @@
 import DashboardLayout from '@/src/components/layout/dashboardlayout';
 
 import StatsCard from '@/src/components/dashboard/statscard';
-import ActivityTable from '@/src/components/dashboard/activitytable';
 import ActivityTableAdvanced from '@/src/components/dashboard/activitytableadvanced';
 
 import PerformanceChart from '@/src/components/charts/performancechart';
@@ -23,7 +22,7 @@ export default function HomePage() {
   if (isLoading) {
     return (
       <DashboardLayout>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           <Skeleton />
           <Skeleton />
           <Skeleton />
@@ -51,7 +50,7 @@ export default function HomePage() {
             Performance Overview
           </h2>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {metrics?.map((metric) => (
               <StatsCard
                 key={metric.title}
@@ -64,10 +63,6 @@ export default function HomePage() {
 
           <div className="mt-8">
             <PerformanceChart />
-          </div>
-
-          <div className="mt-8">
-            <ActivityTable />
           </div>
 
           <div className="mt-8">

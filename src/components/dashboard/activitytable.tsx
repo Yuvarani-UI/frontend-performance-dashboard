@@ -1,6 +1,6 @@
 'use client';
 
-import { recentActivities } from '@/src/constants/statusData';
+import { recentActivities } from '@/src/constants/recentactivities';
 
 import { useAppSelector } from '@/src/hooks/useredux';
 

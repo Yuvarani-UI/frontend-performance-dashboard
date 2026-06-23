@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-import { statusData } from '@/src/constants/statusData';
+import { statusData } from '@/src/constants/statusdata';
 
 const COLORS = [
   '#22c55e',
