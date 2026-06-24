@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import themeReducer from './themeslice';
+import notificationReducer from './notificationslice';
 
 import dashboardReducer from './dashboardslice';
 import authReducer from './authslice';
@@ -9,6 +10,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     auth: authReducer,
      theme: themeReducer,
+     notifications:  notificationReducer,
   },
 });
 

@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { logout } from '@/src/store/authslice';
+import NotificationBell from '@/src/components/notifications/notificationbell';
 
 import {
   useAppDispatch,
@@ -55,6 +56,7 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+        <NotificationBell/>
         <ThemeToggle />
 
         <span
