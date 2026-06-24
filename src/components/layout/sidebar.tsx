@@ -14,7 +14,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`w-64 border-r ${
+      className={`hidden w-64 border-r md:block ${
         mode === 'dark'
           ? 'border-slate-700 bg-slate-900 text-white'
           : 'border-slate-200 bg-white text-slate-900'
@@ -33,8 +33,8 @@ export default function Sidebar() {
             pathname === '/dashboard'
               ? 'bg-blue-600 text-white'
               : mode === 'dark'
-              ? 'text-slate-300 hover:bg-slate-800'
-              : 'text-slate-700 hover:bg-slate-100'
+              ? 'hover:bg-slate-800'
+              : 'hover:bg-slate-100'
           }`}
         >
           Dashboard
@@ -46,8 +46,8 @@ export default function Sidebar() {
             pathname === '/analytics'
               ? 'bg-blue-600 text-white'
               : mode === 'dark'
-              ? 'text-slate-300 hover:bg-slate-800'
-              : 'text-slate-700 hover:bg-slate-100'
+              ? 'hover:bg-slate-800'
+              : 'hover:bg-slate-100'
           }`}
         >
           Analytics
@@ -59,8 +59,8 @@ export default function Sidebar() {
             pathname === '/reports'
               ? 'bg-blue-600 text-white'
               : mode === 'dark'
-              ? 'text-slate-300 hover:bg-slate-800'
-              : 'text-slate-700 hover:bg-slate-100'
+              ? 'hover:bg-slate-800'
+              : 'hover:bg-slate-100'
           }`}
         >
           Reports
@@ -72,8 +72,8 @@ export default function Sidebar() {
             pathname === '/settings'
               ? 'bg-blue-600 text-white'
               : mode === 'dark'
-              ? 'text-slate-300 hover:bg-slate-800'
-              : 'text-slate-700 hover:bg-slate-100'
+              ? 'hover:bg-slate-800'
+              : 'hover:bg-slate-100'
           }`}
         >
           Settings
