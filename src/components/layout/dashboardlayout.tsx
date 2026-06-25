@@ -2,10 +2,9 @@
 
 import Sidebar from './sidebar';
 import Header from './header';
-import MobileSidebar from './mobilesidebar';
 
 import { useAppSelector } from '@/src/hooks/useredux';
-import useTheme from '@/src/hooks/usetheme';
+import useTheme from '@/src/hooks/usetheme'
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
@@ -28,8 +27,6 @@ export default function DashboardLayout({
           : 'bg-slate-100 text-slate-900'
       }`}
     >
-      <MobileSidebar />
-
       <Sidebar />
 
       <div className="flex flex-1 flex-col">
