@@ -14,19 +14,19 @@ import {
 import { useAppSelector } from '@/src/hooks/useredux';
 import { performanceTrendData } from '@/src/constants/performancetrenddata';
 
-const data = [ ]
-
 export default function PerformanceChart() {
   const mode = useAppSelector(
     (state) => state.theme.mode,
   );
 
+  const isDark = mode === 'dark';
+
   return (
     <div
-      className={`rounded-lg p-6 shadow ${
-        mode === 'dark'
-          ? 'bg-slate-800 text-white'
-          : 'bg-white text-slate-900'
+      className={`rounded-xl border p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+        isDark
+          ? 'bg-slate-800 border-slate-700 text-white'
+          : 'bg-white border-slate-200 text-slate-900'
       }`}
     >
       <h2 className="mb-6 text-xl font-semibold">
@@ -42,7 +42,7 @@ export default function PerformanceChart() {
             <CartesianGrid
               strokeDasharray="3 3"
               stroke={
-                mode === 'dark'
+                isDark
                   ? '#334155'
                   : '#e2e8f0'
               }
@@ -50,40 +50,50 @@ export default function PerformanceChart() {
 
             <XAxis
               dataKey="day"
-              stroke={
-                mode === 'dark'
+              tick={{
+                fill: isDark
                   ? '#cbd5e1'
-                  : '#475569'
-              }
+                  : '#475569',
+              }}
             />
 
             <YAxis
-              stroke={
-                mode === 'dark'
+              tick={{
+                fill: isDark
                   ? '#cbd5e1'
-                  : '#475569'
-              }
+                  : '#475569',
+              }}
             />
 
             <Tooltip
               contentStyle={{
                 backgroundColor:
-                  mode === 'dark'
+                  isDark
                     ? '#1e293b'
                     : '#ffffff',
+
                 border:
-                  mode === 'dark'
+                  isDark
                     ? '1px solid #475569'
                     : '1px solid #e2e8f0',
-                borderRadius: '8px',
+
+                borderRadius: '12px',
+
                 color:
-                  mode === 'dark'
+                  isDark
                     ? '#ffffff'
                     : '#0f172a',
+
+                boxShadow:
+                  '0 4px 12px rgba(0,0,0,0.12)',
               }}
             />
 
-            <Legend />
+            <Legend
+              wrapperStyle={{
+                paddingTop: 12,
+              }}
+            />
 
             <Line
               type="monotone"
@@ -92,6 +102,7 @@ export default function PerformanceChart() {
               strokeWidth={3}
               dot={{ r: 4 }}
               activeDot={{ r: 6 }}
+              animationDuration={1200}
               name="LCP"
             />
 
@@ -102,6 +113,7 @@ export default function PerformanceChart() {
               strokeWidth={3}
               dot={{ r: 4 }}
               activeDot={{ r: 6 }}
+              animationDuration={1200}
               name="FCP"
             />
 
@@ -112,6 +124,7 @@ export default function PerformanceChart() {
               strokeWidth={3}
               dot={{ r: 4 }}
               activeDot={{ r: 6 }}
+              animationDuration={1200}
               name="TTI"
             />
           </LineChart>

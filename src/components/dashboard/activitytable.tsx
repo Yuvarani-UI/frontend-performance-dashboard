@@ -9,39 +9,47 @@ export default function ActivityTable() {
     (state) => state.theme.mode,
   );
 
+  const isDark = mode === 'dark';
+
   return (
     <div
-      className={`rounded-lg p-6 shadow ${
-        mode === 'dark'
-          ? 'bg-slate-800 text-white'
-          : 'bg-white text-slate-900'
-      }`}
+      className={`
+        rounded-xl
+        border
+        p-6
+        shadow-md
+        ${
+          isDark
+            ? 'bg-slate-800 border-slate-700 text-white'
+            : 'bg-white border-slate-200 text-slate-900'
+        }
+      `}
     >
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-5 flex items-center justify-between">
         <h2 className="text-xl font-semibold">
           Recent Activity
         </h2>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full">
+        <table className="min-w-full table-auto">
           <thead>
             <tr
               className={`border-b text-left text-sm ${
-                mode === 'dark'
+                isDark
                   ? 'border-slate-700 text-slate-300'
                   : 'border-slate-200 text-slate-500'
               }`}
             >
-              <th className="pb-3 font-medium">
+              <th className="pb-4 font-medium">
                 Activity
               </th>
 
-              <th className="pb-3 font-medium">
+              <th className="pb-4 font-medium">
                 Status
               </th>
 
-              <th className="pb-3 font-medium">
+              <th className="pb-4 font-medium">
                 Date
               </th>
             </tr>
@@ -51,8 +59,8 @@ export default function ActivityTable() {
             {recentActivities.map((item) => (
               <tr
                 key={item.id}
-                className={`border-b last:border-0 ${
-                  mode === 'dark'
+                className={`border-b transition-colors hover:bg-slate-50 dark:hover:bg-slate-700 ${
+                  isDark
                     ? 'border-slate-700'
                     : 'border-slate-200'
                 }`}
@@ -75,7 +83,7 @@ export default function ActivityTable() {
 
                 <td
                   className={`py-4 ${
-                    mode === 'dark'
+                    isDark
                       ? 'text-slate-400'
                       : 'text-slate-600'
                   }`}

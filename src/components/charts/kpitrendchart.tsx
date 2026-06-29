@@ -12,22 +12,22 @@ import {
 
 import { kpiTrendData } from '@/src/constants/kpitrenddata';
 
-import { useAppSelector } from '@/src/hooks/useredux';
+type Props = {
+  dark?: boolean;
+};
 
-export default function KPITrendChart() {
-  const mode = useAppSelector(
-    (state) => state.theme.mode,
-  );
-
+export default function KPITrendChart({
+  dark = false,
+}: Props) {
   return (
     <div
-      className={`rounded-lg p-6 shadow ${
-        mode === 'dark'
+      className={`rounded-xl p-6 shadow transition ${
+        dark
           ? 'bg-slate-800 text-white'
           : 'bg-white text-slate-900'
       }`}
     >
-      <h2 className="mb-4 text-xl font-semibold">
+      <h2 className="mb-6 text-xl font-semibold">
         Monthly User Growth
       </h2>
 
@@ -40,7 +40,7 @@ export default function KPITrendChart() {
             <CartesianGrid
               strokeDasharray="3 3"
               stroke={
-                mode === 'dark'
+                dark
                   ? '#334155'
                   : '#e2e8f0'
               }
@@ -48,22 +48,46 @@ export default function KPITrendChart() {
 
             <XAxis
               dataKey="month"
-              stroke={
-                mode === 'dark'
-                  ? '#cbd5e1'
-                  : '#64748b'
-              }
+              tick={{
+                fill: dark
+                  ? '#CBD5E1'
+                  : '#475569',
+              }}
             />
 
             <YAxis
-              stroke={
-                mode === 'dark'
-                  ? '#cbd5e1'
-                  : '#64748b'
-              }
+              tick={{
+                fill: dark
+                  ? '#CBD5E1'
+                  : '#475569',
+              }}
             />
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: dark
+                  ? '#1e293b'
+                  : '#ffffff',
+
+                border: 'none',
+
+                borderRadius: 12,
+
+                boxShadow:
+                  '0 4px 12px rgba(0,0,0,0.12)',
+
+                color: dark
+                  ? '#ffffff'
+                  : '#0f172a',
+              }}
+              labelStyle={{
+                color: dark
+                  ? '#ffffff'
+                  : '#0f172a',
+
+                fontWeight: 600,
+              }}
+            />
 
             <Line
               type="monotone"

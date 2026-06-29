@@ -2,27 +2,21 @@ export function exportToCSV(
   data: Record<string, unknown>[],
   filename: string,
 ) {
-  if (!data.length) return;
-
   const headers = Object.keys(data[0]);
 
-  const csvRows = [
+  const csv = [
     headers.join(','),
+
     ...data.map((row) =>
       headers
         .map((header) => row[header])
         .join(','),
     ),
-  ];
-
-  const csvContent =
-    csvRows.join('\n');
+  ].join('\n');
 
   const blob = new Blob(
-    [csvContent],
-    {
-      type: 'text/csv;charset=utf-8;',
-    },
+    [csv],
+    { type: 'text/csv' },
   );
 
   const url =
