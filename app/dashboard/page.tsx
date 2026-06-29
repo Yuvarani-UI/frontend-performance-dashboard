@@ -8,6 +8,10 @@ import ActivityTableAdvanced from '@/src/components/dashboard/activitytableadvan
 import AIInsights from '@/src/components/dashboard/AIinsights';
 import ExportButton from '@/src/components/dashboard/exportbutton';
 
+import LiveStatus from '@/src/components/dashboard/livestatus';
+import LastUpdated from '@/src/components/dashboard/lastupdated';
+import ActivityStream from '@/src/components/dashboard/activitystream';
+
 import PerformanceChart from '@/src/components/charts/performancechart';
 import KPITrendChart from '@/src/components/charts/kpitrendchart';
 import StatusPieChart from '@/src/components/charts/statuspiechart';
@@ -16,14 +20,21 @@ import WeeklyPerformanceBarChart from '@/src/components/charts/weeklyperformance
 import ProtectedRoute from '@/src/components/auth/protectedroute';
 
 import { useMetrics } from '@/src/hooks/useMetrics';
+import useRealtime from '@/src/hooks/userealtimemetrics';
+
 import { useAppSelector } from '@/src/hooks/useredux';
 
 export default function DashboardPage() {
+
   const {
     data: metrics,
     isLoading,
     error,
   } = useMetrics();
+
+  const {
+    updatedAt
+  } = useRealtime();
 
   const user = useAppSelector(
     (state) => state.auth.user,
@@ -43,7 +54,9 @@ export default function DashboardPage() {
     return (
       <ProtectedRoute>
         <DashboardLayout>
-          <p>Failed to load dashboard data.</p>
+          <p>
+            Failed to load dashboard data.
+          </p>
         </DashboardLayout>
       </ProtectedRoute>
     );
@@ -51,63 +64,163 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
+
       <DashboardLayout>
+
         <div>
-          <h2 className="mb-6 text-2xl font-semibold">
-            Performance Overview
-          </h2>
+
+          {/* Header */}
+
+          <div
+            className="
+            mb-6
+            flex
+            flex-col
+            gap-4
+            lg:flex-row
+            lg:items-center
+            lg:justify-between
+          "
+          >
+
+            <div>
+
+              <h2
+                className="
+                text-2xl
+                font-semibold
+              "
+              >
+                Performance Overview
+              </h2>
+
+              <div
+                className="
+                mt-2
+                flex
+                items-center
+                gap-4
+              "
+              >
+
+                <LiveStatus />
+
+                <LastUpdated
+                  updatedAt={updatedAt}
+                />
+
+              </div>
+
+            </div>
+
+            <ExportButton />
+
+          </div>
+
 
           {/* KPI Cards */}
 
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          <div
+            className="
+            grid
+            gap-6
+            sm:grid-cols-2
+            xl:grid-cols-4
+          "
+          >
+
             {metrics?.map((metric) => (
+
               <StatsCard
                 key={metric.title}
                 title={metric.title}
                 value={metric.value}
                 status={metric.status}
               />
+
             ))}
+
           </div>
 
-          {/* Main Performance Chart */}
+
+          {/* Main Chart */}
 
           <div className="mt-8">
+
             <PerformanceChart />
+
           </div>
 
-          {/* Advanced Analytics */}
 
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+          {/* Analytics */}
+
+          <div
+            className="
+            mt-8
+            grid
+            gap-6
+            lg:grid-cols-2
+          "
+          >
+
             <KPITrendChart />
+
             <StatusPieChart />
+
           </div>
+
+
+          {/* Weekly Chart */}
 
           <div className="mt-8">
+
             <WeeklyPerformanceBarChart />
+
           </div>
+
+
+          {/* Live Activity */}
+
+          <div className="mt-8">
+
+            <ActivityStream />
+
+          </div>
+
 
           {/* Activities */}
 
           <div className="mt-8">
+
             <ActivityTable />
+
           </div>
+
 
           <div className="mt-8">
+
             <ActivityTableAdvanced />
+
           </div>
 
-          {/* Admin Features */}
+
+          {/* AI Insights */}
 
           {user?.role === 'admin' && (
+
             <div className="mt-8">
+
               <AIInsights />
+
             </div>
+
           )}
 
-         
         </div>
+
       </DashboardLayout>
+
     </ProtectedRoute>
   );
+
 }

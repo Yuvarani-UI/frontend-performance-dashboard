@@ -27,8 +27,9 @@ export default function StatsCard({
         p-6
         shadow-md
         transition-all
-        duration-300
+        duration-500
         hover:-translate-y-1
+        hover:scale-105
         hover:shadow-xl
         ${
           isDark
@@ -56,6 +57,8 @@ export default function StatsCard({
           mt-4
           text-4xl
           font-bold
+          transition-all
+          duration-300
           ${
             isDark
               ? 'text-white'
@@ -75,6 +78,8 @@ export default function StatsCard({
           py-1
           text-sm
           font-medium
+          transition-colors
+          duration-300
           ${
             status === 'Good'
               ? 'bg-green-100 text-green-700'
