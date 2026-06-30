@@ -1,226 +1,163 @@
 'use client';
 
-import DashboardLayout from '@/src/components/layout/dashboardlayout';
+import { useState } from 'react';
 
 import StatsCard from '@/src/components/dashboard/statscard';
-import ActivityTable from '@/src/components/dashboard/activitytable';
-import ActivityTableAdvanced from '@/src/components/dashboard/activitytableadvanced';
-import AIInsights from '@/src/components/dashboard/AIinsights';
-import ExportButton from '@/src/components/dashboard/exportbutton';
-
-import LiveStatus from '@/src/components/dashboard/livestatus';
-import LastUpdated from '@/src/components/dashboard/lastupdated';
-import ActivityStream from '@/src/components/dashboard/activitystream';
-
-import PerformanceChart from '@/src/components/charts/performancechart';
 import KPITrendChart from '@/src/components/charts/kpitrendchart';
+import PerformanceChart from '@/src/components/charts/performancechart';
 import StatusPieChart from '@/src/components/charts/statuspiechart';
 import WeeklyPerformanceBarChart from '@/src/components/charts/weeklyperformancebarchart';
+import ActivityTableAdvanced from '@/src/components/dashboard/activitytableadvanced';
+import ExportButton from '@/src/components/dashboard/exportbutton';
 
-import ProtectedRoute from '@/src/components/auth/protectedroute';
+import NotificationBell from '@/src/components/dashboard/notificationbell';
+import NotificationPanel from '@/src/components/dashboard/notificationpanel';
 
-import { useMetrics } from '@/src/hooks/useMetrics';
+import useNotifications from '@/src/hooks/usenotifications';
 import useRealtime from '@/src/hooks/userealtimemetrics';
+//import useMetrics from '@/src/hooks/useMetrics'; 
 
 import { useAppSelector } from '@/src/hooks/useredux';
 
 export default function DashboardPage() {
-
-  const {
-    data: metrics,
-    isLoading,
-    error,
-  } = useMetrics();
-
-  const {
-    updatedAt
-  } = useRealtime();
-
-  const user = useAppSelector(
-    (state) => state.auth.user,
+  const mode = useAppSelector(
+    (state) => state.theme.mode,
   );
 
-  if (isLoading) {
-    return (
-      <ProtectedRoute>
-        <DashboardLayout>
-          <p>Loading dashboard...</p>
-        </DashboardLayout>
-      </ProtectedRoute>
-    );
-  }
+  const isDark = mode === 'dark';
 
-  if (error) {
-    return (
-      <ProtectedRoute>
-        <DashboardLayout>
-          <p>
-            Failed to load dashboard data.
-          </p>
-        </DashboardLayout>
-      </ProtectedRoute>
-    );
-  }
+  const [open, setOpen] =
+    useState(false);
+
+  const {
+    notifications,
+    unreadCount,
+    markAllRead,
+  } = useNotifications();
+
+  const {
+    updatedAt,
+  } = useRealtime();
 
   return (
-    <ProtectedRoute>
+    <div className="space-y-6">
 
-      <DashboardLayout>
+      {/* Header */}
+
+      <div className="relative flex items-center justify-between">
 
         <div>
+          <h1 className="text-3xl font-bold">
+            Dashboard
+          </h1>
 
-          {/* Header */}
+          <p
+            className={`mt-1 text-sm ${
+              isDark
+                ? 'text-slate-400'
+                : 'text-slate-500'
+            }`}
+          >
+            Real-time frontend insights
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4">
 
           <div
-            className="
-            mb-6
-            flex
-            flex-col
-            gap-4
-            lg:flex-row
-            lg:items-center
-            lg:justify-between
-          "
+            className={`text-sm ${
+              isDark
+                ? 'text-slate-400'
+                : 'text-slate-500'
+            }`}
           >
+            Updated:
 
-            <div>
+            {' '}
 
-              <h2
-                className="
-                text-2xl
-                font-semibold
-              "
-              >
-                Performance Overview
-              </h2>
-
-              <div
-                className="
-                mt-2
-                flex
-                items-center
-                gap-4
-              "
-              >
-
-                <LiveStatus />
-
-                <LastUpdated
-                  updatedAt={updatedAt}
-                />
-
-              </div>
-
-            </div>
-
-            <ExportButton />
-
+            {updatedAt.toLocaleTimeString()}
           </div>
 
+          <div className="relative">
 
-          {/* KPI Cards */}
+            <NotificationBell
+              count={unreadCount}
+              onClick={() =>
+                setOpen(!open)
+              }
+            />
 
-          <div
-            className="
-            grid
-            gap-6
-            sm:grid-cols-2
-            xl:grid-cols-4
-          "
-          >
-
-            {metrics?.map((metric) => (
-
-              <StatsCard
-                key={metric.title}
-                title={metric.title}
-                value={metric.value}
-                status={metric.status}
+            {open && (
+              <NotificationPanel
+                notifications={
+                  notifications
+                }
+                markAllRead={
+                  markAllRead
+                }
               />
-
-            ))}
-
-          </div>
-
-
-          {/* Main Chart */}
-
-          <div className="mt-8">
-
-            <PerformanceChart />
+            )}
 
           </div>
 
-
-          {/* Analytics */}
-
-          <div
-            className="
-            mt-8
-            grid
-            gap-6
-            lg:grid-cols-2
-          "
-          >
-
-            <KPITrendChart />
-
-            <StatusPieChart />
-
-          </div>
-
-
-          {/* Weekly Chart */}
-
-          <div className="mt-8">
-
-            <WeeklyPerformanceBarChart />
-
-          </div>
-
-
-          {/* Live Activity */}
-
-          <div className="mt-8">
-
-            <ActivityStream />
-
-          </div>
-
-
-          {/* Activities */}
-
-          <div className="mt-8">
-
-            <ActivityTable />
-
-          </div>
-
-
-          <div className="mt-8">
-
-            <ActivityTableAdvanced />
-
-          </div>
-
-
-          {/* AI Insights */}
-
-          {user?.role === 'admin' && (
-
-            <div className="mt-8">
-
-              <AIInsights />
-
-            </div>
-
-          )}
+          <ExportButton />
 
         </div>
 
-      </DashboardLayout>
+      </div>
 
-    </ProtectedRoute>
+      {/* KPI Cards */}
+
+      <div className="grid gap-6 md:grid-cols-4">
+
+        <StatsCard
+          title="LCP"
+          value="2.3s"
+          status="Good"
+        />
+
+        <StatsCard
+          title="FCP"
+          value="1.1s"
+          status="Good"
+        />
+
+        <StatsCard
+          title="TTI"
+          value="2.9s"
+          status="Good"
+        />
+
+        <StatsCard
+          title="CLS"
+          value="0.08"
+          status="Good"
+        />
+
+      </div>
+
+      {/* Charts */}
+
+      <div className="grid gap-6 lg:grid-cols-2">
+
+        <KPITrendChart />
+
+        <PerformanceChart />
+
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+
+        <StatusPieChart />
+
+        <WeeklyPerformanceBarChart />
+
+      </div>
+
+      {/* Activity */}
+
+      <ActivityTableAdvanced />
+
+    </div>
   );
-
 }

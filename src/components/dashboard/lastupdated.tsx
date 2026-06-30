@@ -1,31 +1,46 @@
-import { useEffect,useState } from 'react'
+'use client';
 
-export default function LastUpdated(){
+import { useEffect, useState } from 'react';
 
- const [time,setTime] = useState(new Date());
+type Props = {
+  updatedAt: Date | null;
+};
 
- useEffect(()=>{
+export default function LastUpdated({
+  updatedAt,
+}: Props) {
 
-   const interval = setInterval(()=>{
+  const [mounted, setMounted] =
+    useState(false);
 
-      setTime(new Date());
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-   },1000);
+  if (!mounted || !updatedAt) {
+    return null;
+  }
 
-   return ()=>clearInterval(interval);
+  return (
+    <div
+      suppressHydrationWarning
+      className="
+        text-xs
+        text-slate-500
+        dark:text-slate-400
+      "
+    >
+      Updated:{' '}
 
- },[]);
-
- return(
-
-<div className="text-xs text-gray-500">
-
-Updated:
-
-{time.toLocaleTimeString()}
-
-</div>
-
-);
-
+      {updatedAt.toLocaleTimeString(
+        'en-US',
+        {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        },
+      )}
+    </div>
+  );
 }
