@@ -5,6 +5,7 @@ import notificationReducer from './notificationslice';
 import dashboardReducer from './dashboardslice';
 import authReducer from './authslice';
 import SidebarReducer from './sidebarslice';
+import analyticsReducer from './analyticsslice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
      theme: themeReducer,
      notifications:  notificationReducer,
      sidebar : SidebarReducer,
+     analytics: analyticsReducer,
   },
 });
 
